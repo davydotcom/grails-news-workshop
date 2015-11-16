@@ -23,7 +23,7 @@ The lab covers the following grails concepts:
 1. Install grails 3.1.0.M2 with `sdk install grails 3.1.0.M2`
 2. Clone the repository down to your machine:
 ```
-git clone https://github.com/davydotcom/grails-news.git
+git clone https://github.com/davydotcom/grails-news-workshop.git
 cd grails-news
 ```
 
