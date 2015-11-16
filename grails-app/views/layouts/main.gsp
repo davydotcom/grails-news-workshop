@@ -14,7 +14,9 @@
         <div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a></div>
         <ul class='navigation'>
             <li><g:link controller="post" action="index">News</g:link></li>
-            <li><g:link controller="post" action="create">Submit</g:link></li>
+            <li><g:link controller="post" action="create">Submit</g:link></
+            li>
+            <li style="float:right;"><g:link controller="register" action="create">Register</g:link></li>
         </ul>
         <div class="container">
             <g:layoutBody/>

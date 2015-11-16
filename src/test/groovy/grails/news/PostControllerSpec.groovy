@@ -3,20 +3,25 @@ package grails.news
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 import grails.test.mixin.Mock
+import spock.lang.Shared
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(PostController)
-@Mock(Post)
+@Mock([Post,User])
 class PostControllerSpec extends Specification {
+	@Shared User user
 
+	/**
+	* We want to tie the logged in user to the submitted post
+	* To do this we can use the springSecurityService bean
+	* Hint: http://grails-plugins.github.io/grails-spring-security-core/guide/helperClasses.html#springSecurityService
+	*/
 	def setup() {
-		// def counter=1
-		// 50.times {
-		// 	def post = new Post(title: "Article: ${counter++}", text: 'Sample Message')
-		// 	post.save(flush:true)
-		// }
+		user = new User(username: 'testUser', password: 'password').save()
+		def springSecurityService = [currentUser: user]
+		controller.springSecurityService = springSecurityService
 	}
 
 	def cleanup() {
@@ -28,9 +33,9 @@ class PostControllerSpec extends Specification {
 	*/
 	void "index should return a list of posts in the posts property"() {
 		given:
-			def post = new Post(title: "Article: 1", text: 'Sample Message')
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user)
 			post.save(flush:true)
-			post = new Post(title: "Article: 2", text: 'Sample Message')
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user)
 			post.save(flush:true)
 		when:
 			def model = controller.index()
@@ -46,9 +51,9 @@ class PostControllerSpec extends Specification {
 	*/
 	void "index should return a list sorted by dateCreated descending"() {
 		given:
-			def post = new Post(title: "Article: 1", text: 'Sample Message', dateCreated: new Date() -1)
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, dateCreated: new Date() -1)
 			post.save(flush:true)
-			post = new Post(title: "Article: 2", text: 'Sample Message', dateCreated: new Date())
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, dateCreated: new Date())
 			post.save(flush:true)
 		when:
 			def model = controller.index()
@@ -65,7 +70,7 @@ class PostControllerSpec extends Specification {
 	void "index should return a max of 30 per page"() {
 		given:
 			50.times {
-				def post = new Post(title: "Article: 1", text: 'Sample Message', dateCreated: new Date() -1)
+				def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, dateCreated: new Date() -1)
 				post.save(flush:true)	
 			}
 		when:
@@ -81,9 +86,9 @@ class PostControllerSpec extends Specification {
 	*/
 	void "index should return a list if an offset is provided by said offset"() {
 		given:
-			def post = new Post(title: "Article: 1", text: 'Sample Message', dateCreated: new Date() -1)
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, dateCreated: new Date() -1)
 			post.save(flush:true)
-			post = new Post(title: "Article: 2", text: 'Sample Message', dateCreated: new Date())
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, dateCreated: new Date())
 			post.save(flush:true)
 		when:
 			params.offset = 1

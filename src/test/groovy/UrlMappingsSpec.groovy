@@ -4,7 +4,7 @@ import grails.test.mixin.Mock
 import spock.lang.Specification
 
 @TestFor(UrlMappings)
-@Mock(PostController)
+@Mock([PostController,RegisterController])
 class UrlMappingsSpec extends Specification {
 
 	/**
@@ -14,8 +14,14 @@ class UrlMappingsSpec extends Specification {
 	*/
     void "All Url Mapping patterns for the Posts controller should be defined"() {
         expect:
-        assertForwardUrlMapping("/", controller: 'post', action: 'index')
-        assertForwardUrlMapping("/create", controller: 'post', action: 'create')
-        assertForwardUrlMapping("/save", controller: 'post', action: 'save', method: 'POST')
+            assertForwardUrlMapping("/", controller: 'post', action: 'index')
+            assertForwardUrlMapping("/create", controller: 'post', action: 'create')
+            assertForwardUrlMapping("/save", controller: 'post', action: 'save', method: 'POST')
+    }
+
+    void "The registration url mappings should be defined"() {
+        expect:
+            assertForwardUrlMapping("/register", controller: 'register', action: 'create')
+            assertForwardUrlMapping("/register/save", controller: 'register', action: 'save', method: 'POST')
     }
 }

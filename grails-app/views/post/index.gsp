@@ -17,6 +17,7 @@
 					<g:else>
 						<g:link controller="posts" action="show">${post.title}</g:link>
 					</g:else>
+                    <small>by ${post.user?.username}</small>
     			</li>
     		</g:each>
     	</ol>

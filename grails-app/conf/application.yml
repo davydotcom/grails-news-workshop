@@ -1,4 +1,28 @@
 ---
+grails:
+    plugin:
+        springsecurity:
+            userLookup:
+                userDomainClassName: grails.news.User
+                authorityJoinClassName: grails.news.UserRole
+            authority:
+                className: grails.news.Role
+            controllerAnnotations:
+                staticRules:
+                    /: permitAll
+                    /error: permitAll
+                    /index: permitAll
+                    /index.gsp: permitAll
+                    /assets/**: permitAll
+                    /register: permitAll
+                    /register/save: permitAll
+                    /**/js/**: permitAll
+                    /**/css/**: permitAll
+                    /**/images/**: permitAll
+                    /**/favicon.ico: permitAll
+                    /create: isFullyAuthenticated()
+                    /save: isFullyAuthenticated()
+---
 hibernate:
     cache:
         queries: false

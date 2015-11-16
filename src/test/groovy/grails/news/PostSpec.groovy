@@ -2,20 +2,24 @@ package grails.news
 
 import grails.test.mixin.TestFor
 import spock.lang.Specification
-
+import spock.lang.Shared
+import grails.test.mixin.Mock
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Post)
+@Mock(User)
 class PostSpec extends Specification {
+    @Shared User user
 
     def setup() {
+        user = new User(username: 'testUser', password: 'password').save()
     }
 
     def cleanup() {
     }
 
-    void "A Post should have a title, url, and text property defined"() {
+    void "A Post should have a title, url, text, and user property defined"() {
     	given:
     		def post = new Post()
     	expect:
@@ -24,6 +28,7 @@ class PostSpec extends Specification {
     		post.metaClass.hasProperty(post, 'text')
     		post.metaClass.hasProperty(post, 'dateCreated')
     		post.metaClass.hasProperty(post, 'lastUpdated')
+            post.metaClass.hasProperty(post, 'user')
     }
 
     /**
@@ -31,14 +36,14 @@ class PostSpec extends Specification {
     */
     void "A Post should fail if no title is specified"() {
     	given:
-    		def post = new Post(title: null, url: 'http://grails.org', text: 'Sample text')
+    		def post = new Post(title: null, user:user, url: 'http://grails.org', text: 'Sample text')
     	expect:
     		post.validate() == false
     }
 
     void "A Post should be invalid if the name title is blank"() {
     	given:
-    		def post = new Post(title: '', url: 'http://grails.org', text: 'Sample text')
+    		def post = new Post(title: '', user: user, url: 'http://grails.org', text: 'Sample text')
     	expect:
     		post.validate() == false
     }
@@ -49,7 +54,7 @@ class PostSpec extends Specification {
     */
     void "A Post should save if a url is not specified but a text message is"() {
     	given:
-    		def post = new Post(title: 'Grails Rocks', url: null, text: 'Sample text')
+    		def post = new Post(title: 'Grails Rocks', url: null, text: 'Sample text', user:user)
     	expect:
     		post.validate() == true
     }
@@ -60,7 +65,7 @@ class PostSpec extends Specification {
     */
     void "A Post should save if a text message is blank but a url is specified"() {
     	given:
-    		def post = new Post(title: 'Grails Rocks', url: 'http://grails.org', text: null)
+    		def post = new Post(title: 'Grails Rocks', url: 'http://grails.org', text: null, user: user)
     	expect:
     		post.validate() == true
     }
@@ -72,7 +77,7 @@ class PostSpec extends Specification {
 	*/
     void "A Post should fail to save if both a url and a text is unspecified"() {
     	given:
-    		def post = new Post(title: 'Grails Rocks')
+    		def post = new Post(title: 'Grails Rocks', user: user)
     	expect:
     		post.validate() == false
     }
@@ -83,9 +88,16 @@ class PostSpec extends Specification {
     */
     void "A Post should get assigned a dateCreated value upon save"() {
     	given: 
-    		def post = new Post(title: 'Grails Rocks', url: 'http://grails.org')
+    		def post = new Post(title: 'Grails Rocks', url: 'http://grails.org', user: user)
     	expect:
     		post.save(flush:true).dateCreated != null
+    }
+
+    void "A Post should fail to save if user is null"() {
+        given:
+            def post = new Post(title: 'Grails Rocks', url: 'http://grails.org', text: null)
+        expect:
+            post.validate() == false
     }
 
     /**
