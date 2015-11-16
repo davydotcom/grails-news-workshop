@@ -1,6 +1,7 @@
 package grails.news
 
 class PostController {
+    def springSecurityService
 
     def index() { 
     	def posts = Post.list(sort: 'dateCreated', order: 'desc', max:30, offset: params.offset ?: 0)
@@ -12,8 +13,8 @@ class PostController {
     }
 
     def save() {
-    	def post = new Post()
-    	bindData(post,params.post)
+    	def post = new Post(user: springSecurityService.currentUser)
+    	bindData(post,params.post,[exclude: 'user'])
 
     	if(post.save(flush:true)) {
     		redirect action: 'index'

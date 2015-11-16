@@ -10,6 +10,8 @@ class UrlMappings {
         "/"(controller: 'post', action:'index')
         "/save"(controller: 'post', action:'save')
         "/create"(controller: 'post', action:'create')
+        "/register"(controller: 'register', action: 'create')
+        "/register/save"(controller: 'register', action: 'save')
         
 
         "500"(view:'/error')

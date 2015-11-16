@@ -10,6 +10,7 @@ buildscript {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
         classpath "org.grails.plugins:hibernate:4.3.10.7"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.6.4"
+        classpath "com.bertramlabs.plugins:less-asset-pipeline:2.6.4"
     }
 }
 
@@ -57,8 +58,11 @@ dependencies {
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
     compile "org.grails.plugins:hibernate"
     compile "org.hibernate:hibernate-ehcache"
+    compile 'org.grails.plugins:spring-security-core:3.0.0.M1'
+    compile 'org.springframework.security:spring-security-core:3.2.9.RELEASE'
+    compile 'org.springframework.security:spring-security-web:3.2.9.RELEASE'
     runtime "org.grails.plugins:asset-pipeline:3.0.14"
-    assets "com.bertramlabs.plugins:less-asset-pipeline:2.6.4"
+    compile "com.bertramlabs.plugins:less-asset-pipeline:2.6.4"
 }
 
 task wrapper(type: Wrapper) {

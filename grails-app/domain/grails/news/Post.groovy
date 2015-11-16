@@ -4,6 +4,7 @@ class Post {
 	String title
 	String text
 	String url
+    User user
 	Date dateCreated
 	Date lastUpdated
 
