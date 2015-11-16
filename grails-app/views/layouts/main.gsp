@@ -13,9 +13,12 @@
     <body>
         <div id="grailsLogo" role="banner"><a href="http://grails.org"><asset:image src="grails_logo.png" alt="Grails"/></a></div>
         <ul class='navigation'>
-            <li><g:link controller="post" action="create">New Post</g:link></li>
+            <li><g:link controller="post" action="index">News</g:link></li>
+            <li><g:link controller="post" action="create">Submit</g:link></li>
         </ul>
-        <g:layoutBody/>
+        <div class="container">
+            <g:layoutBody/>
+        </div>
         <div class="footer" role="contentinfo"></div>
         <div id="spinner" class="spinner" style="display:none;"><g:message code="spinner.alt" default="Loading&hellip;"/></div>
     </body>

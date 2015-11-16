@@ -5,6 +5,9 @@
         <title>Top Ranked Posts | Grails News</title>
     </head>
     <body>
+    	<g:if test="${!posts}">
+    		<p>No Posts have been submitted yet</p>
+    	</g:if>
     	<ol class='posts-list' start="${params.offset}">
     		<g:each var="post" in="${posts}">
     			<li>
