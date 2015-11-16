@@ -4,6 +4,8 @@ class Post {
 	String title
 	String text
 	String url
+	Date dateCreated
+	Date lastUpdated
 
     static constraints = {
     	url nullable:true, validator: { val, obj ->
