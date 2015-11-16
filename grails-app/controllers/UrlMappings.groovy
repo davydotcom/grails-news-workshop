@@ -7,7 +7,11 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/index")
+        "/"(controller: 'post', action:'index')
+        "/save"(controller: 'post', action:'save')
+        "/create"(controller: 'post', action:'create')
+        
+
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
