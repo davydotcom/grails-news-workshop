@@ -22,6 +22,8 @@ class PostSpec extends Specification {
     		post.metaClass.hasProperty(post, 'title')
     		post.metaClass.hasProperty(post, 'url')
     		post.metaClass.hasProperty(post, 'text')
+    		post.metaClass.hasProperty(post, 'dateCreated')
+    		post.metaClass.hasProperty(post, 'lastUpdated')
     }
 
     /**
@@ -75,6 +77,16 @@ class PostSpec extends Specification {
     		post.validate() == false
     }
 
+    /**
+    * A Post should get updated with a timestamp of when it was created upon save
+    * Hint: http://grails.github.io/grails-doc/3.1.0.M2/ref/Database%20Mapping/autoTimestamp.html
+    */
+    void "A Post should get assigned a dateCreated value upon save"() {
+    	given: 
+    		def post = new Post(title: 'Grails Rocks', url: 'http://grails.org')
+    	expect:
+    		post.save(flush:true).dateCreated != null
+    }
 
     /**
     * Bonus: When this record is hooked up to a backed data store it may become necessary
