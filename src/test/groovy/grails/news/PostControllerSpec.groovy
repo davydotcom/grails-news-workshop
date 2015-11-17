@@ -12,11 +12,6 @@ import grails.test.mixin.Mock
 class PostControllerSpec extends Specification {
 
 	def setup() {
-		// def counter=1
-		// 50.times {
-		// 	def post = new Post(title: "Article: ${counter++}", text: 'Sample Message')
-		// 	post.save(flush:true)
-		// }
 	}
 
 	def cleanup() {
@@ -79,7 +74,7 @@ class PostControllerSpec extends Specification {
 	* With this test we want to skip results by an offset if passed as a ?offset=
 	* Hint: http://grails.github.io/grails-doc/3.1.0.M2/ref/Controllers/params.html
 	*/
-	void "index should return a list if an offset is provided by said offset"() {
+	void "index should return a list by an offset if an offset parameter is passed"() {
 		given:
 			def post = new Post(title: "Article: 1", text: 'Sample Message', dateCreated: new Date() -1)
 			post.save(flush:true)
