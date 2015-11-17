@@ -24,4 +24,10 @@ class UrlMappingsSpec extends Specification {
             assertForwardUrlMapping("/register", controller: 'register', action: 'create')
             assertForwardUrlMapping("/register/save", controller: 'register', action: 'save', method: 'POST')
     }
+
+    void "The upvote/downvote url mappings should be defined"() {
+        expect:
+            assertForwardUrlMapping("/upvote/1", controller: 'post', action:'upvote', id: 1)
+            assertForwardUrlMapping("/downvote/2", controller: 'post', action:'downvote', id: 2)
+    }
 }

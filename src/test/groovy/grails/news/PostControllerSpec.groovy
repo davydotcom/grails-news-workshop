@@ -9,7 +9,7 @@ import spock.lang.Shared
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(PostController)
-@Mock([Post,User])
+@Mock([Post,User,UserVote])
 class PostControllerSpec extends Specification {
 	@Shared User user
 
@@ -22,6 +22,7 @@ class PostControllerSpec extends Specification {
 		user = new User(username: 'testUser', password: 'password').save()
 		def springSecurityService = [currentUser: user]
 		controller.springSecurityService = springSecurityService
+		controller.scoringService = Mock(ScoringService)
 	}
 
 	def cleanup() {
@@ -49,18 +50,33 @@ class PostControllerSpec extends Specification {
 	* We want to change the default sort order of GORM to be dateCreated descending
 	* Hint: https://grails.github.io/grails-doc/3.1.0.M2/ref/Domain%20Classes/list.html
 	*/
-	void "index should return a list sorted by dateCreated descending"() {
+	void "index should return a list sorted by score descending"() {
 		given:
-			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, dateCreated: new Date() -1)
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, score:2)
 			post.save(flush:true)
-			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, dateCreated: new Date())
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, score:1)
 			post.save(flush:true)
 		when:
 			def model = controller.index()
 		then:
 			model.posts != null
 			model.posts.size() == 2
-			model.posts[0].title == 'Article: 2'
+			model.posts[0].score == 2
+			model.posts[0].title == 'Article: 1'
+	}
+
+	void "index should also return a voteMap with the key being the id and the value being true/false depending on if the user is allowed to vote or not"() {
+		given:
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user)
+			post.save(flush:true)
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user)
+			post.save(flush:true)
+			new UserVote(user: user, post: post, value: 1).save(flush:true)
+		when:
+			def model = controller.index()
+		then:
+			model.votingAllowed != null
+			model.votingAllowed instanceof Map
 	}
 
 	/**
@@ -86,9 +102,9 @@ class PostControllerSpec extends Specification {
 	*/
 	void "index should return a list if an offset is provided by said offset"() {
 		given:
-			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, dateCreated: new Date() -1)
+			def post = new Post(title: "Article: 1", text: 'Sample Message', user: user, score: 57)
 			post.save(flush:true)
-			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, dateCreated: new Date())
+			post = new Post(title: "Article: 2", text: 'Sample Message', user: user, score: 1)
 			post.save(flush:true)
 		when:
 			params.offset = 1
@@ -96,7 +112,6 @@ class PostControllerSpec extends Specification {
 		then:
 			model.posts != null
 			model.posts.size() == 1
-			model.posts[0].title == 'Article: 1'
 	}
 
 

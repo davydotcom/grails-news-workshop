@@ -19,7 +19,7 @@ class PostSpec extends Specification {
     def cleanup() {
     }
 
-    void "A Post should have a title, url, text, and user property defined"() {
+    void "A Post should have a title, url, text, score, points, and user property defined"() {
     	given:
     		def post = new Post()
     	expect:
@@ -29,6 +29,8 @@ class PostSpec extends Specification {
     		post.metaClass.hasProperty(post, 'dateCreated')
     		post.metaClass.hasProperty(post, 'lastUpdated')
             post.metaClass.hasProperty(post, 'user')
+            post.metaClass.hasProperty(post, 'score')
+            post.metaClass.hasProperty(post, 'points')
     }
 
     /**

@@ -16,6 +16,8 @@ grails:
                     /assets/**: permitAll
                     /register: permitAll
                     /register/save: permitAll
+                    /upvote/**: isFullyAuthenticated()
+                    /downvote/**: isFullyAuthenticated()
                     /**/js/**: permitAll
                     /**/css/**: permitAll
                     /**/images/**: permitAll
