@@ -1,6 +1,6 @@
 # Step 2 Instructions
 
-We need to implement a view to list all submitted posts as well as to allow the submission of posts
+We need to implement a controller and view to list all submitted posts as well as to allow the submission of posts
 
 * The Root URL should list posts submitted by date descending (30 per page)
 * The page should contain a Submit link to submit your own news posts to the page
