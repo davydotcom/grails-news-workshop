@@ -12,11 +12,6 @@ import grails.test.mixin.Mock
 class PostControllerSpec extends Specification {
 
 	def setup() {
-		// def counter=1
-		// 50.times {
-		// 	def post = new Post(title: "Article: ${counter++}", text: 'Sample Message')
-		// 	post.save(flush:true)
-		// }
 	}
 
 	def cleanup() {
