@@ -1,0 +1,7 @@
+name: 'Workshop'
+files: 
+- path: build/libs
+  pattern: "*.war"
+script: "./gradlew assemble"
+options:
+  catalinaOpts: "-Dgrails.env=prod"
