@@ -12,7 +12,8 @@ class UrlMappings {
         "/create"(controller: 'post', action:'create')
         "/register"(controller: 'register', action: 'create')
         "/register/save"(controller: 'register', action: 'save')
-        
+        "/upvote/$id"(controller: 'post', action: 'upvote')
+        "/downvote/$id"(controller: 'post', action: 'downvote')
 
         "500"(view:'/error')
         "404"(view:'/notFound')

@@ -7,6 +7,8 @@ class Post {
     User user
 	Date dateCreated
 	Date lastUpdated
+    Double score = 0
+    Double points = 0
 
     static constraints = {
     	url nullable:true, validator: { val, obj ->
