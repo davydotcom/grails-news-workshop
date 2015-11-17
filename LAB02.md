@@ -17,3 +17,8 @@ grails create-controller Post
 For this part of the tutorial we will be primarily dealing with Controller creation as well as `UrlMappings`
 
 * [Grails Web Layer](http://grails.github.io/grails-doc/3.1.0.M2/guide/theWebLayer.html)
+
+
+## Bonus
+
+Add a view for showing Posts that have a text content but no url.
